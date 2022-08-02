@@ -54,10 +54,6 @@ resource "aws_efs_mount_target" "mount" {
 resource "aws_ecs_cluster" "foo" {
   name = "efs-example"
 
-  vpc_config {
-    subnet_ids = [aws_subnet.alpha.id, aws_subnet.alpha2.id]
-  }
-
 }
 
 resource "aws_ecs_service" "bar" {
@@ -68,8 +64,9 @@ resource "aws_ecs_service" "bar" {
   launch_type     = "EC2"
   
 #   network_configuration {
-#     subnets = [aws_subnet.alpha.id]
+#     subnets = [aws_subnet.alpha.id, aws_subnet.alpha2.id]
 #   }
+
 }
 
 resource "aws_ecs_task_definition" "efs-task" {
@@ -109,3 +106,15 @@ DEFINITION
 }
 
 // TODO: add security group for ECS Service to allow access to EFS Mount Target security group
+
+# resource "aws_ecs_task_set" "example" {
+#   service         = aws_ecs_service.bar.id
+#   cluster         = aws_ecs_cluster.foo.id
+#   task_definition = aws_ecs_task_definition.efs-task.arn
+
+#   load_balancer {
+#     target_group_arn = aws_lb_target_group.example.arn
+#     container_name   = "mongo"
+#     container_port   = 8080
+#   }
+# }
