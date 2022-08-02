@@ -112,6 +112,10 @@ DEFINITION
 #   cluster         = aws_ecs_cluster.foo.id
 #   task_definition = aws_ecs_task_definition.efs-task.arn
 
+#   network_configuration {
+#     subnets = [aws_subnet.alpha.id, aws_subnet.alpha2.id]
+#   }
+
 #   load_balancer {
 #     target_group_arn = aws_lb_target_group.example.arn
 #     container_name   = "mongo"
