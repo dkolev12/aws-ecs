@@ -53,6 +53,11 @@ resource "aws_efs_mount_target" "mount" {
 
 resource "aws_ecs_cluster" "foo" {
   name = "efs-example"
+
+  vpc_config {
+    subnet_ids = [aws_subnet.alpha.id, aws_subnet.alpha2.id]
+  }
+
 }
 
 resource "aws_ecs_service" "bar" {
