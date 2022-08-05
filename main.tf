@@ -257,7 +257,7 @@ resource "aws_instance" "instance" {
   instance_type        = var.instance_type
   subnet_id            = element(aws_subnet.public_subnet.*.id, count.index)
   security_groups      = [aws_security_group.sg.id, aws_security_group.ec2_security_group.id]
-  key_name             = "efs-key"
+  key_name             = "${file("mykey.pem")}" #"efs-key" 
 #   iam_instance_profile = data.aws_iam_role.iam_role.name
 
   tags = {
@@ -270,7 +270,7 @@ resource "aws_instance" "instance" {
  connection {
     type     = "ssh"
     user     = "ec2-user"
-    private_key = "${file(aws_key_pair.deployer.id)}" #"aws_key_pair.deployer.id"
+    private_key = "${tls_private_key.my_key.private_key_pem}"
     host     = self.private_ip
   }
 
@@ -293,7 +293,7 @@ inline = [
 # Creating Mount target of EFS
 resource "aws_efs_mount_target" "mount1" {
 file_system_id = aws_efs_file_system.efs.id
-subnet_id      =  "aws_instance.instance[count.index].subnet_id"
+subnet_id      =  aws_instance.instance[0].subnet_id
 security_groups = [aws_security_group.ec2_security_group.id]
 }
 
