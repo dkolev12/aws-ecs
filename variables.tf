@@ -13,7 +13,7 @@ variable "instance_tenancy" {
 variable "ami_id" {
   description = "ami id"
   type        = string
-  default     = "ami-0c2286fc70b4c7941"
+  default     = "ami-0e4d9ed95865f3b40"
 }
 
 variable "instance_type" {
@@ -22,8 +22,10 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "ssh_private_key" {
-  description = "pem file of Keypair we used to login to EC2 instances"
-  type        = string
-  default     = "./Keypair-01.pem"
-}
+# variable "ssh_private_key" {
+#   description = "pem file of Keypair we used to login to EC2 instances"
+#   type        = string
+#   default     = "./Keypair-01.pem"
+
+
+
